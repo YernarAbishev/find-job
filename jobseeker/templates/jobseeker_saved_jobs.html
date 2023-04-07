@@ -1,21 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="card w-100 bg-neutral text-neutral-content">
+  <div class="card-body">
+      <h1 class="title mb-10">Избранное</h1>
+      {% for job in jobs %}
+      <div class="card mb-5 w-100 bg-base-100 shadow-xl text-neutral-focus">
+          <div class="card-body">
+              <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 10px;">Вакансия: {{ job.job.title }}</h3>
+              <a href="{% url 'job-detail' job.job.id %}" class="btn btn-secondary">Подробнее</a>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+</div>
 
-<legend class="mb-4">آگهی های نشان شده</legend>
-
-<table class="table table-sm">
-    <thead>
-        <tr>
-            <th scope="col">آگهی</th>
-        </tr>
-    </thead>
-    {% for job in jobs %}
-    <tbody>
-      <tr>
-          <td><a href="{% url 'job-detail' job.id %}">{{ job.job }}</a> </td>
-      </tr>
-    </tbody>
-    {% endfor %}
-  </table>
 
 {% endblock %}

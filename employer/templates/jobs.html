@@ -3,32 +3,32 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<div class="content-section">
-  <legend >آگهی های شما </legend>
+<div class="content-section border border-0 shadow p-3 bg-body rounded">
+  <legend class="blue">Вакансии компании</legend>
   <table class="table">
     <thead class="thead-light">
       <tr>
-        <th scope="col">عنوان آگهی</th>
-        <th scope="col">وضعیت</th>
-        <th scope="col">تاریخ ایجاد</th>
-        <th scope="col">تعداد درخواست</th>
+        <th scope="col">Наименование вакансии</th>
+        <th scope="col">Дата публикации</th>
+        <th scope="col">Количество запросов</th>
+        <th scope="col">Действие</th>
       </tr>
     </thead>
     <tbody>
       {% for job in jobs %}             
         <tr>
           <td>{{job.title}}</td>
-          <td>---</td>
           {% if job.created_date|naturalday == 'today' %}
-          <td>امروز</td>
+          <td>Сегодня</td>
           {% elif job.created_date|naturalday == 'yesterday' %}
-          <td>دیروز</td>
+          <td>Вчера</td>
           {% elif job.created_date|naturalday == 'tomorrow' %}
-          <td>فردا</td>
+          <td>Завтра</td>
           {% else %}
           <td >{{ job.created_date|naturaltime }}</td>
           {% endif %}
           <td>{{ number }}</td>
+          <td><a href="{% url 'delete-request' request.id %}" class="btn btn-danger">Отправить в архив</a></td>
         </tr>
       {% endfor %}
     </tbody>

@@ -25,7 +25,7 @@ urlpatterns = [
     path('register/', jobseeker_register, name='register'),
     path('employer/register/', employer_register, name='employer-register'),
     path('login/', login_request, name='login'),
-    path('job/<int:id>/', job_detail, name='job-detail'),
+    path('job/detail/<int:id>/', job_detail, name='job-detail'),
     path('search/', search, name='search'),
     path('filter/category/<category>', filter_by_category, name='filter-by-category'),
 ]

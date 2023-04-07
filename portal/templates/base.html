@@ -1,146 +1,134 @@
 {% load static %}
-<html dir="rtl" lang="fa">
+<html data-theme="emerald">
 <head>
-  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <!-- my js -->
-  
-  <!-- Blog CSS -->
-  <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
-  <!-- google Icons -->
+  <link rel="stylesheet" href="{% static './css/style.css' %}">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
   {% if title %}
   <title>{{title}}</title>
   {% else %}
-  <title>پرتال استخدام آنلاین جنگو</title>
+  <title>Find Job</title>
   {% endif %}
 </head>
 <body>
-<!-- Navbar -->
-  <header>
-    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-      <div class="container">
-        <a class="navbar-brand mr-4" href="{% url 'home-page' %}">پرتال استخدام آنلاین جنگو</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarToggle">
-              <div class="navbar-nav mr-auto">
-                <!-- search form -->
-                <form class="form-inline my-2 my-lg-0 ml-5" action="{% url 'search' %}">
-                  <button class="btn btn-info my-2 my-sm-0" type="submit">جستجو</button>
-                  <input name="q" data-filter="1" class="form-control mr-sm-1" type="search" aria-label="Search">
-                </form>
-              </div>
-            <!-- Navbar Right Side -->
-            <div class="navbar-nav">
-              {% if user.is_authenticated %}
-                {% if not user.is_jobseeker %}
-                  {% if user.company.jobs %}
-                    <a class="nav-item nav-link" href="{% url 'employer-jobs' %}">آگهی های من</a>
-                    <a class="nav-item nav-link" href="{% url 'employer-create-job' %}">آگهی جدید</a>
-                    <a class="nav-item nav-link" href="{% url 'employer-profile' %}">پروفایل</a>
-                    <a class="nav-item nav-link" href="{% url 'logout' %}">خروج</a>
-                  {% else %}
-                    <a class="nav-item nav-link" href="{% url 'employer-profile' %}">پروفایل</a>
-                    <a class="nav-item nav-link" href="{% url 'logout' %}">خروج</a>
-                  {% endif %}
-                {% endif %}
-              {% if user.is_jobseeker %}
-                <a class="nav-item nav-link" href="{% url 'saved-jobs' %}">نشان شده ها</a>
-                <a class="nav-item nav-link" href="{% url 'jobseeker-requests' %}">درخواست های من</a>
-                <a class="nav-item nav-link" href="{% url 'jobseeker-profile' %}">پروفایل</a>
-                <a class="nav-item nav-link" href="{% url 'logout' %}">خروج</a>
-              {% endif %}
-              {% else %}
-                <a class="nav-item nav-link" href="{% url 'employer-register' %}">بخش کارفرمایان</a>
-                <a class="nav-item nav-link" href="{% url 'register' %}">ثبت نام کارجو</a>
-                <a class="nav-item nav-link" href="{% url 'login' %}">ورود</a>
-              {% endif %}
-            </div>
+  <!-- Navbar -->
+  <header class="navbar bg-neutral text-neutral-content mb-10">
+    <div class="container mx-auto">
+        <div class="flex-1">
+            <a href="{% url 'home-page' %}" class="btn btn-ghost normal-case text-xl">find &nbsp;J<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>B</a>
           </div>
-
-        </div>
-      </nav>
-    </header>
-    <main role="main" class="container">
-        <div class="row">
-          <div class="col-md-9">
-            <!-- flash messages -->
-            {% if messages %}
-              {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    {{ message }}
+          
+            {% if user.is_authenticated %}
+            {% if not user.is_jobseeker %}
+            {% if user.company.jobs %}
+            <div class="flex-none">
+                <ul class="menu menu-horizontal px-1">
+                    <li><a href="{% url 'employer-home' %}">Запросы</a></li>
+                    <li><a href="{% url 'employer-create-job' %}">Открыть вакансию</a></li>
+                </ul>
+            </div>
+            <div class="dropdown dropdown-end">
+                <label tabindex="0" class="btn btn-secondary mr-10 btn-circle">
+                <div class="w-10 rounded-full">
+                  <i class="fa-solid fa-building"></i>
                 </div>
-              {% endfor %}
-            {% endif %}
-            {% block content %}{% endblock %}
-          </div>
-          <div class="col-md-3">
-            <div class="content-section">
-                <h6>
-                  <i class="material-icons ml-1" style="vertical-align: middle;">&#xe3c7;</i>دسته بندی ها
-                </h6>
-                {% for category in categories %}
-                <li class="list-group-item">
-                  <a href="{% url 'filter-by-category' category %}" style="color:grey;">
-                    <input type="checkbox" style="vertical-align: middle;">
-                    {{ category }}
-                  </a>
-                </li>
-              {% endfor %}
-                <h6 class="mt-3">
-                  <i class="material-icons mb-1 ml-1" style="vertical-align: middle;font-size: 20px;">&#xe0c8;</i>استان
-                </h6>
-                {% for category in categories %}
-                <li class="list-group-item">
-                  <a href="{% url 'filter-by-category' category %}" style="color:grey;">
-                    <input type="checkbox" style="vertical-align: middle;">
-                    {{ category }}
-                  </a>
-                </li>
-              {% endfor %}
-              <h6 class="mt-3">
-                <i class="material-icons mb-1 ml-1" style="vertical-align: middle;font-size: 20px;">&#xe8f9;</i>نوع قرار داد
-              </h6>
-              {% for category in categories %}
-              <li class="list-group-item">
-                <a href="{% url 'filter-by-category' category %}" style="color:grey;">
-                  <input type="checkbox" style="vertical-align: middle;">
-                  {{ category }}
-                </a>
-              </li>
-            {% endfor %}
-            <h6 class="mt-3">
-              <i class="material-icons mb-1 ml-1" style="vertical-align: middle;font-size: 20px;">&#xe416;</i>سابقه کار
-            </h6>
-            {% for category in categories %}
-            <li class="list-group-item">
-              <a href="{% url 'filter-by-category' category %}" style="color:grey;">
-                <input type="checkbox" style="vertical-align: middle;">{{ category }}
-              </a>
-            </li>
-          {% endfor %}
-          <h6 class="mt-3">
-            <i class="material-icons mb-1 ml-1" style="vertical-align: middle;font-size: 20px;">&#xe227;</i>حداقل حقوق
-          </h6>
-          {% for category in categories %}
-          <li class="list-group-item">
-            <a href="{% url 'filter-by-category' category %}" style="color:grey;">
-              <input type="checkbox" style="vertical-align: middle;">{{ category }}
-            </a>
-          </li>
-        {% endfor %}
+                </label>
+                <ul tabindex="0" class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-neutral ounded-box w-52">
+                <li><a href="{% url 'employer-profile' %}" class="btn btn-secondary w-100 mb-2">Профиль компании</a></li>
+                <li><a href="{% url 'logout' %}" class="btn btn-error w-100">Выход</a></li>
+                </ul>
             </div>
+            {% else %}
+            <div class="flex-none">
+                <ul class="menu menu-horizontal px-1">
+                    <li><a href="{% url 'employer-profile' %}">Профиль компании</a></li>
+                    <li><a href="{% url 'logout' %}">Выход</a></li>
+                </ul>
+            </div>
+            {% endif %}
+            {% endif %}
+            {% if user.is_jobseeker %}
+            <div class="flex-none">
+                <ul class="menu menu-horizontal px-1">
+                    <li><a href="{% url 'home-page' %}">Вакансии</a></li>
+                    <li><a href="{% url 'saved-jobs' %}">Избранное</a></li>
+                    <li><a href="{% url 'jobseeker-requests' %}">Мои запросы</a></li>
+                </ul>
+            </div>
+            <div class="dropdown dropdown-end">
+                <label tabindex="0" class="btn btn-secondary mr-10 btn-circle">
+                <div class="w-10 rounded-full">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                </label>
+                <ul tabindex="0" class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-neutral ounded-box w-52">
+                <li><a href="{% url 'jobseeker-profile' %}" class="btn btn-secondary w-100 mb-2">Мой профиль</a></li>
+                <li><a href="{% url 'logout' %}" class="btn btn-error w-100">Выход</a></li>
+                </ul>
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="flex-none">
+                <ul class="menu menu-horizontal px-1">
+                    <li><a href="{% url 'employer-register' %}">Работодателям</a></li>
+                    <li><a href="{% url 'register' %}">Поиск работы</a></li>
+                    <li><a href="{% url 'login' %}">Вход</a></li>
+                </ul>
+            </div>
+            {% endif %}
+            <div class="flex-start">
+              <div class="form-control">
+                <form action="{% url 'search' %}">
+                    <input name="q" data-filter="1"  type="search" aria-label="Search" placeholder="Поиск вакансии" class="input mr-4 input-bordered text-secondary" />
+                    <button class="btn btn-secondary btn-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    </button>
+                </form>
+            </div>
+            </div>
+        
+        
+    </div>
+  </header>
+
+
+  <div class="container mx-auto mb-3">
+    <!-- flash messages -->
+    {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+  
+  </div>
+
+  <div class="container mx-auto mb-10">
+    <div class="grid grid-cols-3 gap-4">
+      <div class="card w-100 mr-5 bg-neutral text-neutral-content">
+          <div class="card-body">
+              <h2 class="title">Специализации</h2>
+              <ul>
+                  <li class="mb-2"><a href="{% url 'home-page' %}">Все специализации</a></li>
+                  {% for category in categories %}
+                  <li class="mb-2"><a href="{% url 'filter-by-category' category %}">{{ category }}</a></li>
+                  {% endfor %}
+              </ul>
           </div>
-        </div>
-    </main>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      </div>
+      <div class="col-span-2">
+        {% block content %}{% endblock %}
+      </div>
+      
+  </div>
+  </div>
+
+
 </body>
 </html>

@@ -1,22 +1,29 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="content-section">
-        <form method="POST">
+<style>
+    .text-gray-700 {
+        color: #fff;
+    }
+    #id_full_name, #id_email, #id_password1, #id_password2 {
+        color: #333c4d;
+    }
+    input::placeholder {
+        color: #333c4d;
+
+    }
+</style>
+<div class="card w-100 bg-neutral text-neutral-content">
+    <div class="card-body">
+        <h1 class="title mb-10">Регистрация работодателя</h1>
+        <form method="post">
             {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">ثبت نام کارفرما</legend>
-                {{ form|crispy }}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-info" style="width:100%;" type="submit">ثبت نام</button>
-            </div>
+            {{ form|crispy }}
+            <button class="mt-5 mb-5 btn btn-secondary">Зарегистрироваться</button>
         </form>
-        <div class="border-top pt-3">
-            <small class="text-muted"> 
-                <a class="btn btn-outline-success" href="{% url 'login' %}">ورود به سیستم</a>
-                <a class="btn btn-outline-info" href="{% url 'register' %}">ثبت نام کارجو</a>
-            </small>
-        </div>
+        <p>Есть аккаунт? <a href="{% url 'login' %}" class="text-info">Войти в систему</a></p>
+        <p>Вы ищите работу? <a href="{% url 'register' %}" class="text-info">Пройти регистрацию</a></p>
     </div>
+</div>
+
 {% endblock %}

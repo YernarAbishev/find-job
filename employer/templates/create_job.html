@@ -2,17 +2,31 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="content-section">
-    <form method="POST">
-        {% csrf_token %}
-        <fieldset class="form-group">
-            <legend class="border-bottom mb-4"></legend>
+<style>
+    .block {
+        color: #4bbff8;
+    }
+
+    #id_skills_required, #id_job_description {
+        color: #333c4d;
+    }
+    input::placeholder {
+        color: #333c4d;
+    }
+    select {
+        color: #333c4d;
+    }
+</style>
+<div class="card w-100 bg-neutral text-neutral-content">
+    <div class="card-body">
+        <h1 class="title mb-10">Открыть вакансию</h1>
+        <form method="post">
+            {% csrf_token %}
             {{ form|crispy }}
-        </fieldset>
-        <div class="form-group">
-            <button class="btn btn-info" style="width:100%;" type="submit">انتشار آگهی</button>
-        </div>
-    </form>
+            <button class="btn btn-secondary mt-5 mb-5">Опубликовать</button>
+        </form>
+        
+    </div>
 </div>
 
 {% endblock %}

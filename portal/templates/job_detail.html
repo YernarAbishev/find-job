@@ -1,60 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
 
-<article class="media content-section">
-  <div class="media-body">
-    <img class="account-img" src="{{ job.company.logo.url }}">
-    <a style="font-size: 30px;"> شرکت {{ job.company }}</a>
-    <small class="text-muted"><a href="{{ job.company.link }}">(وبسایت)</a></small>
-    <div class="article-metadata mt-2">
+
+<div class="card w-100 bg-neutral text-neutral-content">
+  <div class="card-body">
+      <div class="avatar">
+          <div class="w-24 mask mask-squircle">
+            <img src="{{ job.company.logo.url }}" />
+          </div>
       </div>
-      <h3 class="article-title mt-3">{{ job.title }}</h3  >
-      <hr>
-      موقعیت مکانی:
-      <span class="job-property ml-5">
-        {{ job.location }}
-      </span>
-      دسته بندی : 
-      <span class="job-property" >
-        {{ job.category }}
-      </span><br><br>
-      سابقه کار:
-      <span class="job-property ml-5" >
-        {{ job.get_experience_display }}
-      </span>
-      حقوق:
-      <span class="job-property ml-5" >
-      {{ job.get_salary_display }}
-      </span>
-      نوع همکاری:
-      <span class="job-property" >
-      {{ job.get_cooperation_type_display }}
-    </span>
-    <legend class="mt-5 mb-3" >شرح موقعیت شغلی </legend>
-      <p class="article-content">{{ job.job_description }}</p>
-    <legend class="mt-5 mb-3">معرفی شرکت</legend>
-      <p class="mb-5">{{job.company.co_introduction}}</p>
-    <p>
-    مهارت های مورد نیاز:
-    </p>
-    <span class="job-property ml-5">
-        {{ job.skills_required }}
-    </span>
-    <br>
-    <br>
-    وضعیت نظام وظیفه:
-    <span class="job-property ml-5">
-      {{ job.get_military_service_display }}
-    </span>
-    تحصیلات:
-    <span class="job-property ml-5">
-      {{ job.get_degree_display }}
-    </span>
-    جنسیت:
-    <span class="job-property ">
-      {{ job.get_gender_display }}
-    </span>
-  </div>      
-</article>
+      <h1 class="stitle">{{ job.company }}</h1>
+      <p class="mb-5">Сайт: <a href="{{ job.company.link }}" target="_blank" class="text-info">{{ job.company.link }}</a></p>
+
+      <h2 class="subtitle">{{ job.title }}</h2>
+      <h2 class="subtitle">Заработная плата: {{ job.get_salary_display }}</h2>
+      <p>Специализация: <span class="badge badge-secondary">{{ job.category }}</span></p>
+      <p>Город: <span class="badge badge-secondary">{{ job.location }}</span></p>
+      <p>Требуемый опыт работы: <span class="badge badge-secondary">{{ job.get_experience_display }}</span></p>
+      <p>Занятость: <span class="badge badge-secondary">{{ job.get_cooperation_type_display }}</span></p>
+      <h3 class="subtitle">О компании</h3>
+      <p style="text-align: justify;">{{job.company.co_introduction}}</p>
+      <h3 class="subtitle">Обязанности</h3>
+      <p style="text-align: justify;">{{ job.job_description }}</p>
+      <p>Требуемые навыки: <span class="badge badge-secondary">{{ job.skills_required }}</span></p>
+      <p>Образование: <span class="badge badge-secondary">{{ job.get_degree_display }}</span></p> 
+      <a href="{% url 'request-job' job.id %}" class="mt-5 btn btn-secondary">Откликнуться</a>
+  </div>
+</div>
+
+
 
 {% endblock %}

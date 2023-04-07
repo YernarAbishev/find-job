@@ -11,14 +11,14 @@ from .forms import UserRegisterForm, UserLoginForm
 from .models import User
 
 
+
 def home_page(request):
     jobs = Job.objects.order_by('-created_date').all()
-    # convert time
     now = datetime.now(timezone.utc)
     for i in jobs:
         get_days = now - i.created_date
         if get_days.days > 1:
-            i.created_date = f'{get_days.days} روز پیش'
+            i.created_date = f'{get_days.days} дней'
     return render(request, 'home_page.html', {'jobs':jobs})
 
 
@@ -42,7 +42,7 @@ def employer_register(request):
             user.is_jobseeker = False
             user.save()
             messages.success(
-                request, 'ثبت نام انجام شد - از طریق فرم زیر وارد شوید'
+                request, 'Регистрация прошла успешно! Пройдите авторизацию'
             )
             return redirect('login')
     else:
@@ -64,7 +64,7 @@ def jobseeker_register(request):
             )
             user.save()
             messages.success(
-                request, 'ثبت نام انجام شد - از طریق فرم زیر وارد شوید'
+                request, 'Регистрация прошла успешно! Пройдите авторизацию'
             )
             return redirect('login')
     else:
@@ -84,14 +84,12 @@ def login_request(request):
             )
             if user is not None:
                 login(request, user)
-                # if user is jobseeker
                 if user.is_jobseeker:
                     return redirect('home-page')
-                # if user is a employer
                 elif not user.is_jobseeker:
                     return redirect('employer-home')
             else:
-                messages.success(request, 'نام کاربری با رمز عبور صحیح نیست')
+                messages.success(request, 'Неправильный логин или пароль')
                 return redirect('login')
     form = UserLoginForm()
     return render(request, 'login.html', {'form':form})
@@ -104,7 +102,7 @@ def search(request):
     for i in resaults:
         get_days = now - i.created_date
         if get_days.days > 1:
-            i.created_date = f'{get_days.days} روز پیش'
+            i.created_date = f'{get_days.days} дней'
     return render(request, 'home_page.html', {'jobs':resaults})
 
 
@@ -114,5 +112,5 @@ def filter_by_category(request, category):
     for i in resaults:
         get_days = now - i.created_date
         if get_days.days > 1:
-            i.created_date = f'{get_days.days} روز پیش'
+            i.created_date = f'{get_days.days} дней'
     return render(request, 'home_page.html', {'jobs':resaults})

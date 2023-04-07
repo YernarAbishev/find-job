@@ -1,31 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="card w-100 bg-neutral text-neutral-content">
+  <div class="card-body">
+      <h1 class="title mb-10">Мои запросы</h1>
+      {% for request in requests %}
+      {% if request.status == 'Подтверждено' %}
+      <div class="card mb-5 w-100 bg-base-100 shadow-xl text-neutral-focus">
+          <div class="card-body">
+              <h3 style="font-size: 20px;">Вакансия: {{ request.job }}</h3>
+              <p>Статус: <span class="badge badge-secondary">{{ request.status }}</span></p>
+              <a href="{{ request.resume_url }}" class="btn btn-secondary">Резюме</a>
+              <a href="{% url 'job-detail' request.job.id %}" class="btn btn-secondary">Подробнее</a>
+          </div>
+      </div>
+      {% else %}
+      <div class="card mb-5 w-100 bg-base-100 shadow-xl text-neutral-focus">
+        <div class="card-body">
+            <h3 style="font-size: 20px; font-weight: 700;">Вакансия: {{ request.job }}</h3>
+            <a href="{% url 'job-detail' request.job.id %}" class="btn btn-secondary">Подробнее</a>
 
-<legend class="mb-4">درخواست های ارسال شده شما</legend>
-
-<table class="table table-sm" style="text-align: center;">
-    <thead>
-        <tr>
-            <th scope="col">آگهی</th>
-            <th scope="col">وضعیت</th>
-            <th scope="col">رزومه ارسال شده</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    {% for request in requests %}
-    <tbody>
-      <tr>
-        <td><a href="{% url 'job-detail' request.job.id %}">{{ request.job }}</a></td>
-        <td>{{ request.status }}</td>
-        <td><a target="_blank" href="{{ request.resume_url }}">مشاهده</a></td>
-        {% if request.status == 'تایید شده' %}
-        <td></td>
-        {% else %}
-        <td><a class="btn btn-danger" style="padding: 1px;font-size:12px;" href="{% url 'cancel-request' request.id %}">لغو درخواست</a></td>
-        {% endif %}
-      </tr>
-    </tbody>
-    {% endfor %}
-  </table>
+            <a href="{% url 'cancel-request' request.id %}" class="btn btn-error">Отменить запрос</a>
+        </div>
+    </div>
+      {% endif %}
+      {% endfor %}
+  </div>
+</div>
 
 {% endblock %}
